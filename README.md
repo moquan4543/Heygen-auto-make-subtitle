@@ -1,4 +1,5 @@
 # Heygen-auto-make-subtitle  
+* * *
 ## **autosubtitle.py**  
 流程:  
 1.剪映輸出字幕選txt檔  
@@ -8,4 +9,6 @@
 5.手動將進度條拉至第一張投影片，注意需要有add speech字樣  
 6.執行程式  
 ## **convertSRT.py**  
-可以利用此程式將srt檔轉換為純文字
+可以利用此程式將srt檔轉換為純文字  
+* * *
+code by 謝梓翔
