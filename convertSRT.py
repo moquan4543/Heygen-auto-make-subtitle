@@ -23,7 +23,6 @@ for filename in os.listdir(src_dir):
         # 刪除第一行
         text = text.split('\n', 1)[1]
 
-        # 新增第一行
 
         # 將結果寫入新檔案
         output_filename = os.path.splitext(filename)[0] + '.txt'
