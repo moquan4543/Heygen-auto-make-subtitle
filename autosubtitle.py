@@ -167,13 +167,12 @@ if(__name__ == '__main__'):
     i = 0
     time.sleep(1)
     # 指定檔案路徑
-    file_path = 'C:/build/subtitle.txt'
+    file_path = 'path/to/txtfile.txt'
     addInitText(flag)
     flag = False
     innerflag = True
     with open(file_path, 'r', encoding='utf-8') as file:
         for line in file:
-            # 移除換行符號
             line = line.strip()
             if(re.match('^a{10,50}',line) != None):
                 Next()
