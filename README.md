@@ -1,7 +1,7 @@
 # Heygen-auto-make-subtitle  
 ## **autosubtitle.py**  
 <div style="color:yellow">
-流程:  
+流程:  <br/>
 1.剪映輸出字幕選txt檔  <br/>
 2.可以利用馴碼快手轉成繁體中文(可選)  <br/>
 3.手動根據老師講的內容分好哪幾句話是同一頁PPT中講的，不同頁的內容用連續10至50個字母'a'來分隔  <br/>
