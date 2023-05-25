@@ -23,6 +23,7 @@ https://drive.google.com/drive/folders/1ubwqH3clQhdqA_7Hi0keSKVYomL0gQe7?usp=sha
 ## **convertSRT.py**  
 可以利用此程式將srt檔轉換為純文字  
 * * *
-參考資料/工具:
-馴碼快手(一鍵繁簡轉換):https://www.azofreeware.com/2012/05/20050305.html
+參考資料/工具:  
+馴碼快手(一鍵繁簡轉換):https://www.azofreeware.com/2012/05/20050305.html  
+* * *
 code by 謝梓翔
