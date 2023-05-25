@@ -166,7 +166,7 @@ if(__name__ == '__main__'):
     flag = True
     i = 0
     time.sleep(1)
-    # 指定檔案路徑
+    # 在這裡指定檔案路徑!!
     file_path = 'path/to/txtfile.txt'
     addInitText(flag)
     flag = False
