@@ -16,7 +16,7 @@ https://drive.google.com/drive/folders/1ubwqH3clQhdqA_7Hi0keSKVYomL0gQe7?usp=sha
 因為增加字幕很機械化  
 就是一直複製貼上然後換下一頁  
 所以我就寫了一支程式幫我做  
-有時候可能會失敗，尤其是第一部更改語言的時候  
+有時候可能會失敗，尤其是第一步更改語言的時候  
 如果失敗只要在command line按Ctrl+C強制中斷  
 然後讓Heygen回到原始的狀態  
 再重新執行程式即可
