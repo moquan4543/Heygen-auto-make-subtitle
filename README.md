@@ -1,7 +1,9 @@
 # Heygen-auto-make-subtitle  
 * * *
 Github上我放的是源碼，可以在這裡下載打包的exe，點兩下就可以執行  
-
+https://drive.google.com/drive/folders/1ubwqH3clQhdqA_7Hi0keSKVYomL0gQe7?usp=share_link
+基本上只要下載rar檔解壓縮就行，另外兩個src跟exe檔只是避免壓縮損壞什麼的，跟壓縮檔裡是一樣的東西
+* * *
 參考流程:  
 1.剪映輸出字幕選txt檔  
 2.手動根據老師講的內容分好哪幾句話是同一頁PPT中講的，不同頁的內容用連續10至50個字母'a'來分隔  
