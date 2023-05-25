@@ -166,20 +166,29 @@ if(__name__ == '__main__'):
     flag = True
     i = 0
     time.sleep(1)
-    # 在這裡指定檔案路徑!!
-    file_path = 'path/to/txtfile.txt'
-    addInitText(flag)
-    flag = False
-    innerflag = True
-    with open(file_path, 'r', encoding='utf-8') as file:
-        for line in file:
-            line = line.strip()
-            if(re.match('^a{10,50}',line) != None):
-                Next()
-                i += 1
-                addInitText(flag)
-                innerflag = True
-                continue
-            time.sleep(0.5)
-            addNewText(line,innerflag)
-            innerflag = False
+    while True:
+        # 指定檔案路徑
+        file_path = ''
+        print("Please enter the path to txt file:")
+        file_path = input()
+        if(os.path.exists(file_path)):
+            addInitText(flag)
+            flag = False
+            innerflag = True
+            with open(file_path, 'r', encoding='utf-8') as file:
+                for line in file:
+                    # 移除換行符號
+                    line = line.strip()
+                    if(re.match('^a{10,50}',line) != None):
+                        Next()
+                        i += 1
+                        addInitText(flag)
+                        innerflag = True
+                        continue
+                    time.sleep(0.5)
+                    addNewText(line,innerflag)
+                    innerflag = False
+            print("Done!")
+            break
+        else:
+            print("The file does not exist or the path is wrong, please try again.")
