@@ -1,12 +1,3 @@
-'''
-流程:
-1.剪映輸出字幕選txt檔
-2.可以利用馴碼快手轉成繁體中文(option)
-3.手動根據老師講的內容分好哪幾句話是同一頁PPT中講的，不同頁的內容用連續10至50個字母'a'來分隔
-4.將改好的txt檔讀入這隻程式裡(在main中指定好路徑)
-5.手動將進度條拉至第一張投影片，注意需要有add speech字樣
-6.執行程式
-'''
 import pyautogui as pg
 import time
 import os.path
@@ -17,18 +8,18 @@ from PIL import Image
 
 MONITORSIZE = pg.size()
 
-ADDSPEECH = Image.open(os.path.abspath("./automakevideo/addspeech.png"))
-PLAYBUTTON = Image.open(os.path.abspath("./automakevideo/playbutton.png"))
-TEXTSCRIPT = Image.open(os.path.abspath("./automakevideo/textscript.png"))
-TIMELINE = Image.open(os.path.abspath("./automakevideo/timeline.png"))
-CONTROLLER = Image.open(os.path.abspath("./automakevideo/zoomcontroller.png"))
-DEFAULTVOICE = Image.open(os.path.abspath("./automakevideo/defaultvoice.png"))
-FILTLANG = Image.open(os.path.abspath("./automakevideo/filtbylang.png"))
-FILTCHINESE = Image.open(os.path.abspath("./automakevideo/filtchinese.png"))
-TARGETVOICE = Image.open(os.path.abspath("./automakevideo/voicetarget.png"))
-SELECTVOICE = Image.open(os.path.abspath("./automakevideo/selectvoice.png"))
-SPEED = Image.open(os.path.abspath("./automakevideo/speed.png"))
-EP = Image.open(os.path.abspath("./automakevideo/EP.png"))
+ADDSPEECH = Image.open(os.path.abspath("./src/addspeech.png"))
+PLAYBUTTON = Image.open(os.path.abspath("./src/playbutton.png"))
+TEXTSCRIPT = Image.open(os.path.abspath("./src/textscript.png"))
+TIMELINE = Image.open(os.path.abspath("./src/timeline.png"))
+CONTROLLER = Image.open(os.path.abspath("./src/zoomcontroller.png"))
+DEFAULTVOICE = Image.open(os.path.abspath("./src/defaultvoice.png"))
+FILTLANG = Image.open(os.path.abspath("./src/filtbylang.png"))
+FILTCHINESE = Image.open(os.path.abspath("./src/filtchinese.png"))
+TARGETVOICE = Image.open(os.path.abspath("./src/voicetarget.png"))
+SELECTVOICE = Image.open(os.path.abspath("./src/selectvoice.png"))
+SPEED = Image.open(os.path.abspath("./src/speed.png"))
+EP = Image.open(os.path.abspath("./src/EP.png"))
 
 
 
@@ -47,7 +38,7 @@ def addInitText(flag):
                 pg.move(400,-90)
                 pg.click()
                 time.sleep(1.5)
-                X,Y = pg.center(pg.locateOnScreen(FILTLANG))
+                X,Y = pg.center(pg.locateOnScreen(FILTLANG,confidence=0.9))
                 pg.moveTo(X,Y)
                 time.sleep(0.3)
                 pg.click()
@@ -56,7 +47,7 @@ def addInitText(flag):
                 time.sleep(0.3)
                 pg.click()
                 pg.move(100,-400)
-                X,Y = pg.center(pg.locateOnScreen(TARGETVOICE))
+                X,Y = pg.center(pg.locateOnScreen(TARGETVOICE,confidence=0.9))
                 pg.moveTo(X,Y)
                 time.sleep(0.3)
                 X,Y = pg.center(pg.locateOnScreen(SELECTVOICE))
@@ -151,11 +142,11 @@ def Next():
         except:
             try:
                 value = 300
-                if(i >= 5):
+                if(i >= 5 and i < 9):
                     value += 600
-                elif(i >= 9):
+                elif(i >= 9 and i < 14):
                     value -= 700
-                elif(i >= 14):
+                elif(i >= 14 and i < 19):
                     value += 800
                 elif(i >= 19):
                     print("Error: Can't slide")
@@ -175,21 +166,28 @@ if(__name__ == '__main__'):
     flag = True
     i = 0
     time.sleep(1)
-    # 指定檔案路徑
-    file_path = 'C:/build/subtitle.txt'
-    addInitText(flag)
-    flag = False
-    innerflag = True
-    with open(file_path, 'r', encoding='utf-8') as file:
-        for line in file:
-            # 移除換行符號
-            line = line.strip()
-            if(re.match('^a{10,50}',line) != None):
-                Next()
-                i += 1
-                addInitText(flag)
-                innerflag = True
-                continue
-            time.sleep(0.5)
-            addNewText(line,innerflag)
-            innerflag = False
+    while True:
+        # 指定檔案路徑
+        file_path = ''
+        print("Please enter the path to txt file:")
+        file_path = input()
+        if(os.path.exists(file_path)):
+            flag = False
+            innerflag = True
+            with open(file_path, 'r', encoding='utf-8') as file:
+                for line in file:
+                    # 移除換行符號
+                    line = line.strip()
+                    if(re.match('^a{10,50}',line) != None):
+                        Next()
+                        i += 1
+                        addInitText(flag)
+                        innerflag = True
+                        continue
+                    time.sleep(0.2)
+                    addNewText(line,innerflag)
+                    innerflag = False
+            print("Done!")
+            break
+        else:
+            print("The file does not exist or the path is wrong, please try again.")
