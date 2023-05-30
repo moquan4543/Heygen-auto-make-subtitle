@@ -27,11 +27,8 @@ def addInitText():
             print("add speech success!")
             break
         except:
-            if(flag):
-                time.sleep(0.5)
-            else:
-                print("Skip the add speech section")
-                break
+            print("Error!! Can't find the add speech icon!!!!!!!!!!!!")
+            break
         
 
 def addNewText(text,flag):
@@ -134,11 +131,6 @@ if(__name__ == '__main__'):
         print("Please enter the path to txt file:")
         file_path = input()
         if(os.path.exists(file_path)):
-<<<<<<< HEAD
-=======
-            addInitText(flag)
-            flag = False
->>>>>>> 64eb4a8f0de21e26ab41ca8b2aa5e11346f2215a
             innerflag = True
             with open(file_path, 'r', encoding='utf-8') as file:
                 for line in file:
@@ -147,24 +139,13 @@ if(__name__ == '__main__'):
                     if(re.match('^a{10,50}',line) != None):
                         Next()
                         i += 1
-<<<<<<< HEAD
                         addInitText()
                         innerflag = True
                         continue
                     time.sleep(0.1)
-=======
-                        addInitText(flag)
-                        innerflag = True
-                        continue
-                    time.sleep(0.5)
->>>>>>> 64eb4a8f0de21e26ab41ca8b2aa5e11346f2215a
                     addNewText(line,innerflag)
                     innerflag = False
             print("Done!")
             break
         else:
-<<<<<<< HEAD
             print("The file does not exist or the path is wrong, please try again.")
-=======
-            print("The file does not exist or the path is wrong, please try again.")
->>>>>>> 64eb4a8f0de21e26ab41ca8b2aa5e11346f2215a
