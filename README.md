@@ -14,7 +14,7 @@ https://drive.google.com/drive/folders/1ubwqH3clQhdqA_7Hi0keSKVYomL0gQe7?usp=sha
 1.剪映輸出字幕選txt檔  
 2.手動根據老師講的內容分好哪幾句話是同一頁PPT中講的，不同頁的內容用連續10至50個字母'a'來分隔  
 3.將改好的txt檔放到與程式的同層資料夾  
-4.回到Heygen，手動將進度條拉至第一張投影片，按add speech更改語言
+4.回到Heygen，手動將進度條拉至第一張投影片，按add speech更改語言  
 5.確保Text Script的紫色icon有顯示在螢幕上  
 6.執行程式，輸入路徑  
 * * *
