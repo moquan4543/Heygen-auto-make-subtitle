@@ -4,7 +4,7 @@
 不再自動更改語言  
 不再自動調整語速  
 使用前須確保第一頁「ADD SPEECH」按鈕已被點下，且語言已更改  
-執行前一定要讓新增文字上方的Text Script顯示在螢幕上  
+執行前一定要讓新增文字上方的Text Script「完整的」顯示在螢幕上  
 * * *
 Github上我放的是源碼，可以在這裡下載打包的exe，點兩下就可以執行  
 https://drive.google.com/drive/folders/1ubwqH3clQhdqA_7Hi0keSKVYomL0gQe7?usp=share_link  
