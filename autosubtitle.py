@@ -13,19 +13,10 @@ PLAYBUTTON = Image.open(os.path.abspath("./src/playbutton.png"))
 TEXTSCRIPT = Image.open(os.path.abspath("./src/textscript.png"))
 TIMELINE = Image.open(os.path.abspath("./src/timeline.png"))
 CONTROLLER = Image.open(os.path.abspath("./src/zoomcontroller.png"))
-DEFAULTVOICE = Image.open(os.path.abspath("./src/defaultvoice.png"))
-FILTLANG = Image.open(os.path.abspath("./src/filtbylang.png"))
-FILTCHINESE = Image.open(os.path.abspath("./src/filtchinese.png"))
-TARGETVOICE = Image.open(os.path.abspath("./src/voicetarget.png"))
-SELECTVOICE = Image.open(os.path.abspath("./src/selectvoice.png"))
-SPEED = Image.open(os.path.abspath("./src/speed.png"))
 EP = Image.open(os.path.abspath("./src/EP.png"))
 
 
-
-
-
-def addInitText(flag):
+def addInitText():
     X = 0
     Y = 0
     while True:
@@ -34,34 +25,6 @@ def addInitText(flag):
             pg.moveTo(X,Y)
             pg.click()
             print("add speech success!")
-            if(flag):
-                pg.move(400,-90)
-                pg.click()
-                time.sleep(1.5)
-                X,Y = pg.center(pg.locateOnScreen(FILTLANG,confidence=0.9))
-                pg.moveTo(X,Y)
-                time.sleep(0.3)
-                pg.click()
-                X,Y = pg.center(pg.locateOnScreen(FILTCHINESE,confidence=0.9))
-                pg.moveTo(X,Y)
-                time.sleep(0.3)
-                pg.click()
-                pg.move(100,-400)
-                X,Y = pg.center(pg.locateOnScreen(TARGETVOICE,confidence=0.9))
-                pg.moveTo(X,Y)
-                time.sleep(0.3)
-                X,Y = pg.center(pg.locateOnScreen(SELECTVOICE))
-                pg.moveTo(X,Y)
-                time.sleep(0.3)
-                pg.click()
-            print("select voice success!")
-            time.sleep(0.8)
-            pg.moveTo(1779,716)
-            time.sleep(0.2)
-            pg.mouseDown(button="left")
-            pg.moveTo(1744,716,0.1)
-            pg.mouseUp(button="left")
-            print("modify speed success!")
             break
         except:
             if(flag):
@@ -146,7 +109,7 @@ def Next():
                     value += 600
                 elif(i >= 9 and i < 14):
                     value -= 700
-                elif(i >= 14 and i < 19):
+                elif(i >= 14 and i <19):
                     value += 800
                 elif(i >= 19):
                     print("Error: Can't slide")
@@ -163,7 +126,6 @@ def Next():
                 time.sleep(0.8)
 
 if(__name__ == '__main__'):
-    flag = True
     i = 0
     time.sleep(1)
     while True:
@@ -172,7 +134,6 @@ if(__name__ == '__main__'):
         print("Please enter the path to txt file:")
         file_path = input()
         if(os.path.exists(file_path)):
-            flag = False
             innerflag = True
             with open(file_path, 'r', encoding='utf-8') as file:
                 for line in file:
@@ -181,10 +142,10 @@ if(__name__ == '__main__'):
                     if(re.match('^a{10,50}',line) != None):
                         Next()
                         i += 1
-                        addInitText(flag)
+                        addInitText()
                         innerflag = True
                         continue
-                    time.sleep(0.2)
+                    time.sleep(0.1)
                     addNewText(line,innerflag)
                     innerflag = False
             print("Done!")
