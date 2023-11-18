@@ -6,9 +6,9 @@
 使用前須確保第一頁「ADD SPEECH」按鈕已被點下，且語言已更改  
 執行前一定要讓新增文字上方的Text Script「完整的」顯示在螢幕上  
 * * *
-Github上我放的是源碼，可以在這裡下載打包的exe，點兩下就可以執行  
+可以在這裡下載打包的exe，點兩下就可以執行  
 https://drive.google.com/drive/folders/1ubwqH3clQhdqA_7Hi0keSKVYomL0gQe7?usp=share_link  
-基本上只要下載rar檔解壓縮就行，另外兩個src跟exe檔只是避免壓縮損壞什麼的，跟壓縮檔裡是一樣的東西
+基本上只要下載rar檔解壓縮就行，另外兩個src跟exe檔只是避免壓縮損壞之類的情況，跟壓縮檔裡是一樣的東西
 * * *
 參考流程:  
 1.剪映輸出字幕選txt檔  
