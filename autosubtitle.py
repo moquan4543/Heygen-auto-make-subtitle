@@ -1,151 +1,102 @@
-import pyautogui as pg
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver import ActionChains
+import os
 import time
-import os.path
-import re
-import pyperclip
-from PIL import Image
 
-
-MONITORSIZE = pg.size()
-
-ADDSPEECH = Image.open(os.path.abspath("./src/addspeech.png"))
-PLAYBUTTON = Image.open(os.path.abspath("./src/playbutton.png"))
-TEXTSCRIPT = Image.open(os.path.abspath("./src/textscript.png"))
-TIMELINE = Image.open(os.path.abspath("./src/timeline.png"))
-CONTROLLER = Image.open(os.path.abspath("./src/zoomcontroller.png"))
-EP = Image.open(os.path.abspath("./src/EP.png"))
-
-
-def addInitText():
-    X = 0
-    Y = 0
-    while True:
-        try:
-            X ,Y = pg.center(pg.locateOnScreen(ADDSPEECH,confidence=0.9))
-            pg.moveTo(X,Y)
-            pg.click()
-            print("add speech success!")
+# 讀取處理txt
+filePath = ''
+while(True):
+    print("Please enter the path to txt file:")
+    filePath = input()
+    if(os.path.exists(filePath)):
+        with open(filePath, 'r', encoding='utf-8') as file: 
+            content = file.read()
             break
-        except:
-            print("Error!! Can't find the add speech icon!!!!!!!!!!!!")
-            break
-        
+    else:
+        print("cant open file, please try again...")
+paragraphs = content.split('*\n')
 
-def addNewText(text,flag):
-    X = 0
-    Y = 0
-    while True:
-        if(flag):
-            try:
-                X, Y = pg.center(pg.locateOnScreen(TEXTSCRIPT,region=(470,544,400,300),confidence=0.8))
-                pg.moveTo(X+50,Y+50)
-                pg.click(button="left")
-                pg.hotkey("ctrl","a")
-                pg.press("delete")
-                pyperclip.copy(text)
-                pg.hotkey("ctrl","v")
-                pg.press("enter")
-                print("Text added!(new page)")
-                break
-            except:
-                try:
-                    X, Y = pg.center(pg.locateOnScreen(PLAYBUTTON,region=(470,544,300,200)))
-                    pg.moveTo(X+50,Y)
-                    pg.click(button="left")
-                    pg.hotkey("ctrl","a")
-                    pg.press("delete")
-                    pyperclip.copy(text)
-                    pg.hotkey("ctrl","v")
-                    pg.press("enter")
-                    print("Text added!(new page)")
-                    break
-                except:
-                    try:
-                        X, Y = pg.center(pg.locateOnScreen(EP,region=(460,544,310,200)))
-                        pg.moveTo(X+50,Y)
-                        pg.click(button="left")
-                        pg.hotkey("ctrl","a")
-                        pg.press("delete")
-                        pyperclip.copy(text)
-                        pg.hotkey("ctrl","v")
-                        pg.press("enter")
-                        print("Text added!(new page)")
-                        break
-                    except:
-                        print("The position is not found!")
-                        time.sleep(1)
+
+# Init
+driver = webdriver.Chrome()
+driver.get("https://app.heygen.com/home")
+action = ActionChains(driver)
+
+#等待使用者手動登入
+input("請手動登入Heygen並進入要匯入字幕的draft頁面，完成後按Enter繼續...")
+
+# 等待並點擊add script
+wait = WebDriverWait(driver, 10)
+addInitScriptButton = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/div/div/div[3]/div/div[2]/div[3]/div[3]/div/div[2]/div[2]/div[1]/div[1]/div/div/div[4]/div[2]')))
+addInitScriptButton.click()
+
+# 更改語言
+languageButton = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/div/div/div[3]/div/div[2]/div[2]/div[1]/div/div[2]/div/div[1]/div[1]/div[2]/div[1]/div/div[1]/div[1]/div[1]')))
+languageButton.click()
+
+# 選擇Chinese語言Filter
+time.sleep(0.5)
+try:
+    chineseOption = wait.until(EC.element_to_be_clickable((By.XPATH, '/html/body/div[5]/div/div[2]/div/div[2]/div/div/div/div/div[2]/div/div/div[2]/div[1]/div/div[2]/div[1]/div')))
+except:
+    chineseOption = driver.find_element(By.XPATH, '/html/body/div[5]/div/div[2]/div/div[2]/div/div/div/div/div[2]/div/div/div[2]/div[1]/div/div[2]/div[1]/div')
+chineseOption.click()
+chineseOption = wait.until(EC.presence_of_element_located((By.XPATH, '/html/body/div[5]/div/div[2]/div/div[2]/div/div/div/div/div[2]/div/div/div[2]/div[1]/div/div[2]/div[3]/div[2]/div/ul/li[5]')))
+chineseOption.click()
+
+
+# 選擇HsiaoChen - Friendly聲音
+voiceOption = wait.until(EC.presence_of_element_located((By.XPATH, '/html/body/div[5]/div/div[2]/div/div[2]/div/div/div/div/div[2]/div/div/div[2]/div[2]/div/div[3]')))
+voiceOption.click()
+
+# 刪除Default文本（僅第一次）
+scriptInput = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="root"]/div/div/div[3]/div/div[2]/div[2]/div[1]/div/div[2]/div/div[1]/div[1]/div[2]/div[1]/div/div[2]/div/div[1]')))
+scriptInput.clear()
+
+iter = 2
+lineFlag = 1
+pFlag = 1
+for paragraph in paragraphs:
+    try:
+        lines = paragraph.split('\n')
+        for line in lines:
+            scriptInput.send_keys(line.strip())
+            if(lineFlag == len(lines)):
+                lineFlag = 1
+            else:
+                scriptInput.send_keys(Keys.SHIFT,Keys.ENTER)
+                lineFlag +=1
+
+        #get new button
+        addScriptButtonXPath = f"/html/body/div[1]/div/div/div[3]/div/div[2]/div[2]/div[1]/div/div[2]/div/div[1]/div[{iter}]/div[2]/button[1]"
+        addScriptButton = wait.until(EC.presence_of_element_located((By.XPATH,addScriptButtonXPath )))
+
+
+        if(pFlag == len(paragraphs)):
+            pass
         else:
             try:
-                pyperclip.copy(text)
-                pg.hotkey("ctrl","v")
-                pg.press("enter")
-                print("Text added!")
-                break
+                addScriptButton.click()
             except:
-                print("Error: can't paste the text")
-                time.sleep(1)
-def Next():
-    X = 0
-    Y = 0
-    X2 = 0
-    Y2 = 0
-    i = 0
-    while True:
-        try:
-            X, Y = pg.center(pg.locateOnScreen(TIMELINE,confidence=0.8,region=(482,829,1450,100)))
-            pg.moveTo(X,Y)
-            pg.mouseDown(button="left")
-            pg.move(30,0)
-            pg.mouseUp(button="left")
-            if(pg.locateOnScreen(ADDSPEECH,confidence=0.8,region=(490,536,1100,500)) != None):
-                break
-        except:
-            try:
-                value = 300
-                if(i >= 5 and i < 9):
-                    value += 600
-                elif(i >= 9 and i < 14):
-                    value -= 700
-                elif(i >= 14 and i <19):
-                    value += 800
-                elif(i >= 19):
-                    print("Error: Can't slide")
-                    exit()
-                X2, Y2 = pg.center(pg.locateOnScreen(CONTROLLER,confidence=0.8,region=(0, MONITORSIZE[1]-200,MONITORSIZE[0],199)))
-                pg.moveTo(X2-value,Y2)
-                pg.mouseDown(button="left")
-                pg.move(20,0)
-                pg.mouseUp(button="left")
-                i = i + 1
-                continue
-            except:
-                print("Timeline has not found!")
-                time.sleep(0.8)
+                time.sleep(0.5)
+                addScriptButton.click()
+            #get new scriptInput
+            scirptInputButtonXPath = f"/html/body/div[1]/div/div/div[3]/div/div[2]/div[2]/div[1]/div/div[2]/div/div[1]/div[{iter}]/div[2]/div[1]/div/div[2]/div/div[1]"
+            scriptInput = wait.until(EC.presence_of_element_located((By.XPATH, scirptInputButtonXPath)))
+        iter += 1
+        pFlag += 1
+    except Exception:
+        print("Here\n\n\n")
+        print(Exception)
+        print(Exception.args)
+        print(Exception.__cause__)
+        print(Exception.__context__)
+        input()
 
-if(__name__ == '__main__'):
-    i = 0
-    time.sleep(1)
-    while True:
-        # 指定檔案路徑
-        file_path = ''
-        print("Please enter the path to txt file:")
-        file_path = input()
-        if(os.path.exists(file_path)):
-            innerflag = True
-            with open(file_path, 'r', encoding='utf-8') as file:
-                for line in file:
-                    # 移除換行符號
-                    line = line.strip()
-                    if(re.match('^a{10,50}',line) != None):
-                        Next()
-                        i += 1
-                        addInitText()
-                        innerflag = True
-                        continue
-                    time.sleep(0.1)
-                    addNewText(line,innerflag)
-                    innerflag = False
-            print("Done!")
-            break
-        else:
-            print("The file does not exist or the path is wrong, please try again.")
+input("Click to leave")
+#完成後關閉瀏覽器
+#driver.quit()
