@@ -1,4 +1,3 @@
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
@@ -27,7 +26,18 @@ with SB(uc=True) as sb:
 
     # 等待並點擊add script
     wait = WebDriverWait(sb.driver, 10)
-    addInitScriptButton = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/div/div/div[3]/div/div[2]/div[3]/div[3]/div/div[2]/div[2]/div[1]/div[1]/div/div/div[4]/div[2]')))
+    try:
+        addInitScriptButton = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/div/div/div[3]/div/div[2]/div[3]/div[3]/div/div[2]/div[2]/div[1]/div[1]/div/div/div[4]/div[2]')))
+    except Exception:
+        try:
+            addInitScriptButton = wait.until(EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div/div/div[3]/div/div[2]/div[3]/div[3]/div/div[2]/div[2]/div[1]/div[1]/div/div/div[4]')))
+        except Exception:
+            print("Something went wrong, please try again\n")
+            print(Exception)
+            print(Exception.args)
+            print(Exception.__cause__)
+            print(Exception.__context__)
+            input("\nEnter to leave")
     addInitScriptButton.click()
 
     # 更改語言
@@ -86,7 +96,6 @@ with SB(uc=True) as sb:
             iter += 1
             pFlag += 1
         except Exception:
-            print("Here\n\n\n")
             print(Exception)
             print(Exception.args)
             print(Exception.__cause__)
