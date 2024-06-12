@@ -41,9 +41,7 @@ with SB(uc=True) as sb:
     addInitScriptButton.click()
 
     # 更改語言
-    languageButton = wait.until(EC.element_to_be_clickable((By.XPATH, '/html/body/div[1]/div/div/div[3]/div/div[2]/div[2]/div[1]/div/div[2]/div/div[1]/div[1]/div[2]/div[1]/div/div[1]/div[1]/div[1]')))
-    languageButton.click()
-
+    sb.click('//span[contains(text(), "Jenny - Professional")]')
     # 選擇Chinese語言Filter
     time.sleep(1)
     sb.click('//div[contains(text(), "English")]')
