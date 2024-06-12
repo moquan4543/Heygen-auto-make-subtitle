@@ -41,22 +41,16 @@ with SB(uc=True) as sb:
     addInitScriptButton.click()
 
     # 更改語言
-    languageButton = wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="root"]/div/div/div[3]/div/div[2]/div[2]/div[1]/div/div[2]/div/div[1]/div[1]/div[2]/div[1]/div/div[1]/div[1]/div[1]')))
+    languageButton = wait.until(EC.element_to_be_clickable((By.XPATH, '/html/body/div[1]/div/div/div[3]/div/div[2]/div[2]/div[1]/div/div[2]/div/div[1]/div[1]/div[2]/div[1]/div/div[1]/div[1]/div[1]')))
     languageButton.click()
 
     # 選擇Chinese語言Filter
-    time.sleep(0.5)
-    try:
-        chineseOption = wait.until(EC.element_to_be_clickable((By.XPATH, '/html/body/div[5]/div/div[2]/div/div[2]/div/div/div/div/div[2]/div/div/div[2]/div[1]/div/div[2]/div[1]/div')))
-    except:
-        chineseOption = sb.driver.find_element(By.XPATH, '/html/body/div[5]/div/div[2]/div/div[2]/div/div/div/div/div[2]/div/div/div[2]/div[1]/div/div[2]/div[1]/div')
-    chineseOption.click()
-    chineseOption = wait.until(EC.presence_of_element_located((By.XPATH, '/html/body/div[5]/div/div[2]/div/div[2]/div/div/div/div/div[2]/div/div/div[2]/div[1]/div/div[2]/div[3]/div[2]/div/ul/li[5]')))
-    chineseOption.click()
-
+    time.sleep(1)
+    sb.click('//div[contains(text(), "English")]')
+    sb.click('//li[contains(text(), "Chinese")]')
     # 選擇HsiaoChen - Friendly聲音
-    voiceOption = wait.until(EC.presence_of_element_located((By.XPATH, '/html/body/div[5]/div/div[2]/div/div[2]/div/div/div/div/div[2]/div/div/div[2]/div[2]/div/div[3]')))
-    voiceOption.click()
+    sb.click('//div[contains(text(), "HsiaoChen - Friendly")]')
+    
 
     # 刪除Default文本（僅第一次）
     scriptInput = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="root"]/div/div/div[3]/div/div[2]/div[2]/div[1]/div/div[2]/div/div[1]/div[1]/div[2]/div[1]/div/div[2]/div/div[1]')))
